@@ -1,0 +1,23 @@
+name: Daily update MIMIT CSV
+
+on:
+  schedule:
+    - cron: '5 7 * * *' # ogni giorno 07:05 UTC (~08:05 CET)
+  workflow_dispatch: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Trigger Next.js API route on Vercel
+        run: |
+          curl -X POST "$VERCEL_UPDATE_URL" -H "Authorization: Bearer $VERCEL_TOKEN" -s -S || true
+        env:
+          VERCEL_UPDATE_URL: ${{ secrets.VERCEL_UPDATE_URL }} # es: https://your-deployment.vercel.app/api/update
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+

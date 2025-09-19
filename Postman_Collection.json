@@ -1,0 +1,140 @@
+{
+  "info": {
+    "name": "Prezzi Benzina - API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "prezzi-benzina-api-collection"
+  },
+  "item": [
+    {
+      "name": "Benzinai - List",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/benzinai?tipo={{tipo}}&q={{q}}&provincia={{provincia}}&comune={{comune}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "benzinai"
+          ],
+          "query": [
+            { "key": "tipo", "value": "{{tipo}}", "disabled": false },
+            { "key": "q", "value": "{{q}}", "disabled": true },
+            { "key": "provincia", "value": "{{provincia}}", "disabled": true },
+            { "key": "comune", "value": "{{comune}}", "disabled": true }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Benzinai - Detail",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/benzinai?id={{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "benzinai"
+          ],
+          "query": [
+            { "key": "id", "value": "{{id}}" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Benzinai - Detail + Storico",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/benzinai?id={{id}}&storico=true",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "benzinai"
+          ],
+          "query": [
+            { "key": "id", "value": "{{id}}" },
+            { "key": "storico", "value": "true" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update - Prezzi (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/update",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "api", "update" ]
+        }
+      }
+    },
+    {
+      "name": "Import - Anagrafica (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/import-anagrafica",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "api", "import-anagrafica" ]
+        }
+      }
+    },
+    {
+      "name": "Debug - CSV Headers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/debug-csv",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "api", "debug-csv" ]
+        }
+      }
+    },
+    {
+      "name": "Push - Subscribe (POST)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"subscription\": {\n    \"endpoint\": \"https://example\",\n    \"keys\": {\n      \"p256dh\": \"...\",\n      \"auth\": \"...\"\n    }\n  },\n  \"filters\": null\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/subscribe",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "api", "subscribe" ]
+        }
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "tipo", "value": "Benzina" },
+    { "key": "q", "value": "" },
+    { "key": "provincia", "value": "" },
+    { "key": "comune", "value": "" },
+    { "key": "id", "value": "3474" }
+  ]
+}
+
+
