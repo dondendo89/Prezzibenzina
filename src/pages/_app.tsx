@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 import { I18nProvider } from '@/lib/i18n';
 import 'leaflet/dist/leaflet.css';
-import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {

@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   res.setHeader('Cache-Control', 'public, max-age=60');
   
   try {
-    const { tipo, regione, provincia, comune, id, nome, storico, q } = req.query;
+    const { tipo, regione, provincia, comune, id, storico, q } = req.query;
 
     if (id) {
       const { data, error } = await supabase
@@ -25,28 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .from('variazioni')
           .select('*')
           .eq('id', String(id))
-          .order('changed_at', { ascending: false })
-          .limit(100);
-        if (err2) return res.status(500).json({ error: err2.message });
-        return res.status(200).json({ data, storico: hist });
-      }
-      return res.status(200).json({ data });
-    }
-    
-    if (nome) {
-      const { data, error } = await supabase
-        .from('benzinai')
-        .select('*')
-        .eq('nome', String(nome))
-        .single();
-      if (error) return res.status(500).json({ error: error.message });
-      if (!data) return res.status(404).json({ error: 'Not found' });
-
-      if (storico === 'true') {
-        const { data: hist, error: err2 } = await supabase
-          .from('variazioni')
-          .select('*')
-          .eq('id', String(data.id))
           .order('changed_at', { ascending: false })
           .limit(100);
         if (err2) return res.status(500).json({ error: err2.message });

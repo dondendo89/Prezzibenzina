@@ -43,9 +43,9 @@ export default function Mappa({ items, userPosition, radiusKm = 0 }: Props) {
         <Marker key={i.id} position={[i.lat, i.lon]} icon={icon}>
           <Popup>
             <div style={{ minWidth: 180 }}>
-              <div style={{ fontWeight: 600 }}>{i.nome}</div>
-              <div style={{ fontSize: 12, color: '#666' }}>{i.comune} ({i.provincia}) • {i.tipo}</div>
-              <div style={{ fontWeight: 600 }}>{i.prezzo_attuale ?? 'n/d'}</div>
+              <strong>{i.nome}</strong>
+              <div>Prezzo: {i.prezzo_attuale ?? 'n/d'}</div>
+              {i.variazione ? <span style={{ color: 'orange' }}>Variazione recente</span> : null}
             </div>
           </Popup>
         </Marker>

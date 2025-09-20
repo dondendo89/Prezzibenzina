@@ -1,13 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Disabilita la cache per lo sviluppo
-  onDemandEntries: {
-    // periodo (in ms) in cui la pagina sarà mantenuta in memoria
-    maxInactiveAge: 10 * 1000,
-    // numero di pagine da mantenere in memoria
-    pagesBufferLength: 1,
-  },
   experimental: {
     typedRoutes: true
   },
@@ -21,4 +14,6 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+
 
