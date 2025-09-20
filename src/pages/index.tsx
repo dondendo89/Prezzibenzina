@@ -125,7 +125,7 @@ export default function HomePage() {
           setItems(mockData.filter(item => !tipo || item.tipo === tipo));
         }
       } catch (error) {
-        if (error.name !== 'AbortError') {
+        if (error && typeof error === 'object' && 'name' in error && error.name !== 'AbortError') {
           console.error('Errore durante il recupero dei dati:', error);
         }
         // In caso di errore, utilizziamo i dati di esempio
@@ -161,48 +161,170 @@ export default function HomePage() {
   });
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, padding: 16 }}>
-      <div>
-        <h1>{t('title')}</h1>
-        <div style={{ marginBottom: 8 }}>
-          <label>Lang: </label>
-          <select value={locale} onChange={(e) => setLocale(e.target.value as any)}>
-            <option value="it">IT</option>
-            <option value="en">EN</option>
-          </select>
+    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '1200px', margin: '0 auto' }}>
+      <header style={{ 
+        backgroundColor: '#0066cc', 
+        color: 'white', 
+        padding: '15px 20px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '20px'
+      }}>
+        <h1 style={{ margin: 0, fontSize: '24px' }}>{t('title')}</h1>
+        <div>
+          <button 
+            onClick={() => setLocale('it')} 
+            style={{ 
+              background: locale === 'it' ? '#004999' : 'transparent', 
+              border: 'none', 
+              color: 'white', 
+              padding: '5px 10px',
+              cursor: 'pointer',
+              borderRadius: '3px',
+              marginRight: '5px'
+            }}
+          >
+            🇮🇹 IT
+          </button>
+          <button 
+            onClick={() => setLocale('en')} 
+            style={{ 
+              background: locale === 'en' ? '#004999' : 'transparent', 
+              border: 'none', 
+              color: 'white', 
+              padding: '5px 10px',
+              cursor: 'pointer',
+              borderRadius: '3px'
+            }}
+          >
+            🇬🇧 EN
+          </button>
         </div>
-        <div style={{ display: 'flex', gap: 8, marginBottom: 12, alignItems: 'center' }}>
-          <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-            <option>{t('fuel_benzina')}</option>
-            <option>{t('fuel_gasolio')}</option>
-            <option>{t('fuel_gpl')}</option>
-            <option>{t('fuel_metano')}</option>
-          </select>
-          <input placeholder={t('search_placeholder')} value={q} onChange={(e) => setQ(e.target.value)} />
+      </header>
+
+      <div style={{ 
+        backgroundColor: '#f5f5f5', 
+        padding: '20px', 
+        borderRadius: '5px',
+        marginBottom: '20px',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+      }}>
+        <h2 style={{ margin: '0 0 15px 0', color: '#0066cc', fontSize: '18px' }}>
+          {t('search_title')}
+        </h2>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px' }}>
+              {t('fuel_type')}
+            </label>
+            <select 
+              value={tipo} 
+              onChange={e => setTipo(e.target.value)}
+              style={{ 
+                width: '100%', 
+                padding: '8px', 
+                border: '1px solid #ddd',
+                borderRadius: '3px'
+              }}
+            >
+              <option>{t('fuel_benzina')}</option>
+              <option>{t('fuel_gasolio')}</option>
+              <option>{t('fuel_gpl')}</option>
+              <option>{t('fuel_metano')}</option>
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px' }}>
+              {t('search_location')}
+            </label>
+            <input 
+              type="text" 
+              placeholder={t('search_placeholder')} 
+              value={q} 
+              onChange={e => setQ(e.target.value)}
+              style={{ 
+                width: '100%', 
+                padding: '8px', 
+                border: '1px solid #ddd',
+                borderRadius: '3px'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px' }}>
+              {t('radius')}
+            </label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button onClick={() => {
+                if (!('geolocation' in navigator)) { alert('Geolocalizzazione non disponibile'); return; }
+                navigator.geolocation.getCurrentPosition(
+                  (p) => setPos({ lat: p.coords.latitude, lon: p.coords.longitude }),
+                  (err) => alert('Permesso negato o errore geolocalizzazione'),
+                  { enableHighAccuracy: true, timeout: 8000 }
+                );
+              }} style={{ padding: '8px', borderRadius: '3px', border: '1px solid #ddd', background: '#fff', cursor: 'pointer' }}>📍</button>
+              <input 
+                type="number" 
+                min={1} 
+                max={200} 
+                value={radiusKm} 
+                onChange={(e) => setRadiusKm(Number(e.target.value || 0))} 
+                style={{ 
+                  flex: 1,
+                  padding: '8px', 
+                  border: '1px solid #ddd',
+                  borderRadius: '3px'
+                }}
+              />
+              <span>km</span>
+            </div>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px' }}>
+              {t('sort_by')}
+            </label>
+            <select 
+              value={sortBy} 
+              onChange={e => setSortBy(e.target.value as any)}
+              style={{ 
+                width: '100%', 
+                padding: '8px', 
+                border: '1px solid #ddd',
+                borderRadius: '3px'
+              }}
+            >
+              <option value="distance">Distanza</option>
+              <option value="price">Prezzo</option>
+              <option value="name">Nome</option>
+            </select>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: 8, marginBottom: 12, alignItems: 'center' }}>
-          <button onClick={() => {
-            if (!('geolocation' in navigator)) { alert('Geolocalizzazione non disponibile'); return; }
-            navigator.geolocation.getCurrentPosition(
-              (p) => setPos({ lat: p.coords.latitude, lon: p.coords.longitude }),
-              (err) => alert('Permesso negato o errore geolocalizzazione'),
-              { enableHighAccuracy: true, timeout: 8000 }
-            );
-          }}>📍</button>
-          <label>Raggio (km): </label>
-          <input type="number" min={1} max={200} value={radiusKm} onChange={(e) => setRadiusKm(Number(e.target.value || 0))} style={{ width: 70 }} />
-          <label>Ordina: </label>
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value as any)}>
-            <option value="distance">Distanza</option>
-            <option value="price">Prezzo</option>
-            <option value="name">Nome</option>
-          </select>
-        </div>
-        <Lista items={sorted} />
       </div>
-      <div>
-        <Mappa items={sorted} userPosition={pos || undefined} radiusKm={radiusKm} />
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+        <div style={{ height: '400px', border: '1px solid #ddd', borderRadius: '5px', overflow: 'hidden' }}>
+          <Mappa items={sorted} userPosition={pos || undefined} radiusKm={radiusKm} />
+        </div>
+        <div style={{ height: '400px', overflow: 'auto', border: '1px solid #ddd', borderRadius: '5px', padding: '10px' }}>
+          <Lista items={sorted} />
+        </div>
       </div>
+
+      <footer style={{ 
+        borderTop: '1px solid #ddd', 
+        padding: '15px 0', 
+        marginTop: '20px',
+        fontSize: '12px', 
+        color: '#666',
+        textAlign: 'center'
+      }}>
+        {t('data_source')}
+      </footer>
     </div>
   );
 }

@@ -47,17 +47,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { data, error } = await queryBuilder.limit(500);
     if (error) return res.status(500).json({ error: error.message });
     
-    // Aggiungiamo valori predefiniti per i campi mancanti
-    const dataWithDefaults = data?.map(item => ({
-      ...item,
-      nome: item.nome || `Distributore ${item.id}`,
-      comune: item.comune || "Sconosciuto",
-      provincia: item.provincia || "N/D",
-      lat: item.lat || 41.8719 + (Math.random() * 2 - 1), // Coordinate casuali in Italia
-      lon: item.lon || 12.5674 + (Math.random() * 2 - 1)
-    }));
-    
-    return res.status(200).json({ data: dataWithDefaults });
+    // Restituiamo i dati in formato compatibile
+    return res.status(200).json({ data });
   } catch (e: any) {
     console.error('Errore API benzinai:', e);
     
