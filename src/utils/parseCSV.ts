@@ -26,10 +26,24 @@ export async function fetchAndParseCSV(url: string): Promise<RecordCSV[]> {
   const header = headerIdx >= 0 ? rows[headerIdx] : rows[0] || [];
   const dataRows = rows.slice((headerIdx >= 0 ? headerIdx + 1 : 1)).filter(r => r && r.length >= 5);
 
-  const colIndex = {
+  const colIndex: {
+    id: number;
+    carburante: number;
+    prezzo: number;
+    nome: number;
+    comune: number;
+    provincia: number;
+    lat: number;
+    lon: number;
+  } = {
     id: header.findIndex(h => /idimpianto/i.test(h)),
     carburante: header.findIndex(h => /desc.?carburante/i.test(h)),
     prezzo: header.findIndex(h => /prezzo/i.test(h)),
+    nome: -1,  // Default to -1 if not found
+    comune: -1,
+    provincia: -1,
+    lat: -1,
+    lon: -1,
   };
 
   function parseNum(v: string): number | null {
@@ -44,12 +58,12 @@ export async function fetchAndParseCSV(url: string): Promise<RecordCSV[]> {
     const mapTipo = tipoCarburante;
     return {
       id: r[colIndex.id],
-      nome: r[colIndex.nome],
-      comune: r[colIndex.comune],
-      provincia: r[colIndex.provincia],
+      nome: colIndex.nome >= 0 ? r[colIndex.nome] : '',
+      comune: colIndex.comune >= 0 ? r[colIndex.comune] : '',
+      provincia: colIndex.provincia >= 0 ? r[colIndex.provincia] : '',
       tipo: mapTipo as any,
-      lat: parseNum(r[colIndex.lat]) || 0,
-      lon: parseNum(r[colIndex.lon]) || 0,
+      lat: colIndex.lat >= 0 ? parseNum(r[colIndex.lat]) || 0 : 0,
+      lon: colIndex.lon >= 0 ? parseNum(r[colIndex.lon]) || 0 : 0,
       prezzo_attuale: parseNum(r[colIndex.prezzo]),
     };
   }).filter(r => r.id);
