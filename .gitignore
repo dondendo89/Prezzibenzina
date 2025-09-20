@@ -2,6 +2,8 @@
 node_modules
 /.pnp
 .pnp.js
+.cache
+.next
 
 # testing
 /coverage
@@ -36,8 +38,4 @@ next-env.d.ts
 .idea
 .vscode
 
-# Next.js build output
-.next/*
-
-# Cache
-.cache/*
+# Next.js build outpu

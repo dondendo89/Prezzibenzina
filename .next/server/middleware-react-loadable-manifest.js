@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{\"pages/index.tsx -> @/components/Mappa\":{\"id\":\"pages/index.tsx -> @/components/Mappa\",\"files\":[\"static/chunks/src_components_Mappa_tsx.js\"]}}"
+self.__REACT_LOADABLE_MANIFEST="{\"pages/distributore/[id].tsx -> @/components/Mappa\":{\"id\":\"pages/distributore/[id].tsx -> @/components/Mappa\",\"files\":[\"static/chunks/src_components_Mappa_tsx.js\"]},\"pages/index.tsx -> @/components/Mappa\":{\"id\":\"pages/index.tsx -> @/components/Mappa\",\"files\":[\"static/chunks/src_components_Mappa_tsx.js\"]}}"

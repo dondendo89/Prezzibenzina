@@ -2,8 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/api/import-anagrafica": "pages/api/import-anagrafica.js",
-  "/api/subscribe": "pages/api/subscribe.js",
-  "/api/benzinai": "pages/api/benzinai.js"
+  "/distributore/[id]": "pages/distributore/[id].js",
+  "/api/benzinai": "pages/api/benzinai.js",
+  "/": "pages/index.js"
 }

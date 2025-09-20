@@ -30,6 +30,11 @@ export async function fetchAndParseCSV(url: string): Promise<RecordCSV[]> {
     id: header.findIndex(h => /idimpianto/i.test(h)),
     carburante: header.findIndex(h => /desc.?carburante/i.test(h)),
     prezzo: header.findIndex(h => /prezzo/i.test(h)),
+    nome: -1,  // Questi campi non sono presenti nel CSV
+    comune: -1,
+    provincia: -1,
+    lat: -1,
+    lon: -1
   };
 
   function parseNum(v: string): number | null {
