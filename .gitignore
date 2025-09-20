@@ -40,5 +40,4 @@ next-env.d.ts
 .next/*
 
 # Cache
-.cache/
-.next/cache/webpack/client-development/0.pack.gz
+.cache/*
