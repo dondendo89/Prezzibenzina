@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST='{"pages/index.tsx -> @/components/Mappa":{"id":9692,"files":["static/chunks/0b7b90cd.abad55a865e4a8c0.js","static/chunks/692.3009211e22566b6a.js"]}}';
+self.__REACT_LOADABLE_MANIFEST="{\"pages/index.tsx -> @/components/Mappa\":{\"id\":\"pages/index.tsx -> @/components/Mappa\",\"files\":[\"static/chunks/src_components_Mappa_tsx.js\"]}}"
